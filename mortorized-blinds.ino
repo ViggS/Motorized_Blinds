@@ -1,12 +1,12 @@
 /**
 
- *  Spark Core
-
+ *  Particle Photon
+ 
  *
 
  *  Author: Justin Wurth
 
- *  Date: 2014-09-19
+ *  Date: 2014-09-19 - Modified 2/11/2016 (B. Anderson)
 
  */
 
@@ -18,8 +18,8 @@
 
 Servo myservo;
 int state;
-int open=0; //changed from 0 on 2/9
-int closed=150; //changed from 150 on 2/9 at 2:54pm
+int open=0; 
+int closed=150; 
 
 // Functions
 int setState(String command);
@@ -27,8 +27,8 @@ int setState(String command);
 void setup(){
   myservo.attach(A4);   
   myservo.attach(SERVO_PIN); // attaches the servo on analog pin A4 to the servo object
-  Spark.function("setstate", setState);
-  Spark.variable("getstate", &state, INT);
+  Particle.function("setstate", setState);
+  Particle.variable("getstate", &state, INT);
   state=myservo.read();
   pinMode(SWITCH_PIN,  INPUT_PULLUP);
 }
@@ -36,18 +36,24 @@ void setup(){
 void loop(){
   if(!digitalRead(SWITCH_PIN)){
     delay(50);
+    myservo.attach(A4);
+    myservo.attach(SERVO_PIN);
     state=(state)?open:closed; // Toggle between fully open and closed
     myservo.write(state);
+    delay(500);
+    analogWrite(A4,255);
     // TODO: Notify Smart things
   }
   while(!digitalRead(SWITCH_PIN));
 }
 
 int setState(String command){ 
+    myservo.attach(A4);
+    myservo.attach(SERVO_PIN);
     state = command.toInt(); 
-    state = map (state, 0, 80, open, closed); //second number was 99 on 2/9 at 2:48PM
-    myservo.write(state); //changed from myservo.write(state)
+    state = map (state, 0, 99, open, closed); 
+    myservo.write(state); 
+    delay(500);
+    analogWrite(A4,255);
     return 1;
     }
-
-
