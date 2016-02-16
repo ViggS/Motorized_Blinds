@@ -6,7 +6,7 @@
 
  *  Author: Justin Wurth
 
- *  Date: 2014-09-19 - Modified 2/11/2016 (B. Anderson)
+ *  Date: 2014-09-19
 
  */
 
